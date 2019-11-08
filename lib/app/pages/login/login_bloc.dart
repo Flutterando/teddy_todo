@@ -3,7 +3,6 @@ import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:teddy_todo/app/shared/blocs/auth_bloc.dart';
 
-
 enum LoginStatus {
   IDLE,
   LOADING,
@@ -13,33 +12,34 @@ enum LoginStatus {
 }
 
 class LoginBloc extends BlocBase {
-
   final AuthBloc _authBloc;
 
   String email;
   String pass;
 
   final _login$ = PublishSubject();
-  Observable<LoginStatus> get loginStatus => _login$.stream.switchMap(_loginStream).shareValueSeeded(LoginStatus.IDLE);
+  Observable<LoginStatus> loginStatus;
 
+  LoginBloc(this._authBloc){
+    loginStatus = _login$.stream.switchMap((v) {
+        return _loginStream(v);
+      }).shareValueSeeded(LoginStatus.IDLE);
+  }
 
   Stream<LoginStatus> _loginStream(v) async* {
-    try{
+    try {
       yield LoginStatus.LOADING;
       await _authBloc.login(email, pass);
       yield LoginStatus.GET_USER;
       await _authBloc.getUser();
       yield LoginStatus.SUCCESS;
     } catch (e) {
-      print(e);
       yield LoginStatus.ERROR;
     }
   }
 
-  LoginBloc(this._authBloc);
-
   login() {
-   _login$.add(true);
+    _login$.add(true);
   }
 
   //dispose will be called automatically by closing its streams
