@@ -18,11 +18,11 @@ environment:
 
 dependencies:
   shared_preferences: ^0.5.4+3
-  encrypt: ^3.3.1
+  encrypt: ">=3.3.1 <6.0.0"
   hive: ^1.1.1
   hive_flutter: ^0.2.1
   flare_flutter: ^1.6.4
-  dio: ^3.0.4
+  dio: ">=3.0.4 <6.0.0"
   rxdart: ^0.22.5
   bloc_pattern: ^2.4.4
   flutter:
@@ -33,7 +33,7 @@ dependencies:
   cupertino_icons: ^0.1.2
 
 dev_dependencies:
-  mockito: ^4.1.1
+  mockito: ">=4.1.1 <6.0.0"
   flutter_test:
     sdk: flutter
 
